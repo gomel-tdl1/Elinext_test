@@ -59,8 +59,10 @@
   },
   "devDependencies": {
     "@ant-design/icons": "^4.6.2",
+    "@types/ifvisible": "^1.1.0",
     "autoprefixer": "9",
     "gh-pages": "^3.2.3",
+    "ifvisible.js": "^1.0.6",
     "postcss": "7",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },

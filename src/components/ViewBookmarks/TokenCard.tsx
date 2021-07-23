@@ -55,7 +55,7 @@ const TokenCard: FC<PropsCardType> = React.memo((props) => {
                 style={{width: 300}}
                 onClick={() => setVisible(true)}
                 cover={<img alt="example"
-                            src={props.photoUrlC ? props.photoUrlC : 'https://static.wikia.nocookie.net/nopixel/images/b/b4/Not-found-image-15383864787lu.jpg/revision/latest?cb=20200910062142'}/>}
+                            src={props.photoUrlC || props.photoUrlO || 'https://znaiwifi.com/wp-content/uploads/2018/01/hqdefault.jpg'}/>}
             >
                 <div className='flex flex-col gap-8'>
                     <Title level={4}>{props.title}</Title>

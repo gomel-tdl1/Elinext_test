@@ -1,5 +1,5 @@
-import {Avatar, Layout} from 'antd';
-import React, {ComponentType, FC} from 'react';
+import {Avatar, Layout, Modal} from 'antd';
+import React, {ComponentType, FC, useState} from 'react';
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import './App.less';
 import {withSuspense} from './hoc/withSuspense';
@@ -11,8 +11,10 @@ import {compose} from 'redux';
 import Navigation from "./components/NavBar/Navigation";
 import Title from "antd/es/typography/Title";
 import {Footer, Header} from "antd/es/layout/layout";
-import { UserOutlined } from '@ant-design/icons';
+import {UserOutlined} from '@ant-design/icons';
 import Text from "antd/es/typography/Text";
+// @ts-ignore
+import ifvisible from 'ifvisible.js';
 
 const SearchPageContainer = React.lazy(() => import("./components/SearchPage/SearchPage"));
 const ViewBookmarksContainer = React.lazy(() => import("./components/ViewBookmarks/ViewBookmarks"));
@@ -25,12 +27,22 @@ type OwnPropsType = {}
 type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType;
 
 const App: FC<PropsType> = React.memo((props) => {
+    let [visible, setVisible] = useState<boolean>(false);
+    ifvisible.on("idle", function () {
+        setVisible(true);
+    });
+    ifvisible.on("blur", function(){
+        setVisible(true);
+    });
+    ifvisible.on("wakeup", function () {
+        setVisible(false);
+    });
     return (
         <Layout className="App">
             <Header>
                 <div className='flex w-full items-center justify-between h-full'>
                     <Title level={4} style={{color: 'white'}}>Image Finder</Title>
-                    <Avatar icon={<UserOutlined />} size={30}/>
+                    <Avatar icon={<UserOutlined/>} size={30}/>
                 </div>
             </Header>
             <Layout>
@@ -52,10 +64,18 @@ const App: FC<PropsType> = React.memo((props) => {
                     </Switch>
                 </Content>
             </Layout>
+            <Modal
+                visible={visible}
+                title="Wake up please"
+                footer={[]}
+            >
+                <p>You was inactive 60s or leave this page</p>
+            </Modal>
             <Footer style={{borderTop: '1px solid grey'}}>
                 <div className='flex w-full items-center justify-center h-full'>
-                    <Text italic={true} className='block'>Made with <span style={{color: 'rgb(255, 255, 255)'}}>❤</span> by Ilya Taldykin<br/>
-                    Powered by Flickr</Text>
+                    <Text italic={true} className='block'>Made with <span
+                        style={{color: 'rgb(255, 255, 255)'}}>❤</span> by Ilya Taldykin<br/>
+                        Powered by Flickr</Text>
                 </div>
             </Footer>
         </Layout>
